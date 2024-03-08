@@ -3,21 +3,18 @@
 	"id": "autofish",
 	"version": "${version}",
 	"name": "AutoFish",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Auto fishes, also automatically throws another fishing reel when the fish is caught.",
 	"authors": [
-		"Me!"
+		"Tr4nt"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://github.com/Tr4nter/Auto-Fishing",
+		"sources": "https://github.com/Tr4nter/Auto-Fishing"
 	},
-	"license": "CC0-1.0",
+	"license": "GPLv3",
 	"icon": "assets/autofish/icon.png",
 	"environment": "*",
 	"entrypoints": {
-		"main": [
-			"tr4nt.autofish.AutoFish"
-		],
 		"client": [
 			"tr4nt.autofish.AutoFishClient"
 		]
@@ -31,9 +28,9 @@
 	],
 	"depends": {
 		"fabricloader": ">=0.15.1",
-		"minecraft": "~1.20.4",
+		"minecraft": ">=1.19",
 		"java": ">=17",
-		"fabric-api": "*"
+		"fabric": "*"
 	},
 	"suggests": {
 		"another-mod": "*"

@@ -28,8 +28,8 @@ public class TickEvent implements ClientTickEvents.StartTick{
 
         if (((FishingBobberEntityMixin) player.fishHook).getCaughtFish())
         {
-
-            if (!(Long.compare(tick()-currentTime, getLatency(client)*10) == 1)) return;
+                                                                        // + 100 add an extra delay to make sure the reel doesn't hit the item as its being collected, * 10 to make the number bigger since tick()-currentTime is in the thousands
+            if (!(Long.compare(tick()-currentTime, (getLatency(client)+100)*10) == 1)) return;
 
 
             assert client.interactionManager != null;
