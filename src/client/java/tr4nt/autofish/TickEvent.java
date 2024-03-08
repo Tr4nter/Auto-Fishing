@@ -31,8 +31,7 @@ public class TickEvent implements ClientTickEvents.StartTick{
 
             if (!(Long.compare(tick()-currentTime, getLatency(client)*10) == 1)) return;
 
-            AutoFishClient.LOGGER.info(String.valueOf(tick()-currentTime));
-            AutoFishClient.LOGGER.info(String.valueOf( getLatency(client)));
+
             assert client.interactionManager != null;
             currentTime = tick();
 
