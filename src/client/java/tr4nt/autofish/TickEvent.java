@@ -27,33 +27,36 @@ import java.util.List;
 import java.util.Objects;
 
 import tr4nt.autofish.Utils;
+import tr4nt.autofish.scheduler.Ticker;
 
 import static tr4nt.autofish.Utils.*;
 
 public class TickEvent implements ClientTickEvents.StartTick{
-    public static boolean Catching = false;
     @Override
     public void onStartTick(MinecraftClient client) {
         PlayerEntity player = client.player;
         if (player == null) return;
-        if (player.getMainHandStack().getItem() != Items.FISHING_ROD) return;
+        if (player.getMainHandStack().getItem().asItem() != Items.FISHING_ROD && player.getOffHandStack().getItem().asItem() != Items.FISHING_ROD) return;
         if (player.fishHook == null) return;
         FishingBobberEntity fishHook = player.fishHook;
         FishingBobberEntityMixin fishHookMixin = (FishingBobberEntityMixin) fishHook;
         if (fishHookMixin.getCaughtFish())
         {
-            if (Catching) return;
+            if (!Ticker.TaskList.isEmpty()) return;
             if (client.interactionManager == null) return;
-            Hand handWithRod;
-            if (player.getMainHandStack().getItem() == Items.FISHING_ROD)
+
+
+            Hand handWithRod = null;
+            if (player.getMainHandStack().getItem().asItem() == Items.FISHING_ROD)
             {
                 handWithRod = Hand.MAIN_HAND;
-            } else
+            } else if (player.getOffHandStack().getItem().asItem()  == Items.FISHING_ROD)
             {
                 handWithRod = Hand.OFF_HAND;
             }
+
+
             queueRodInteraction(client, player, handWithRod, RodEnum.CATCH);
-            Catching = true;
             queueRodInteraction(client, player, handWithRod, RodEnum.RELEASE);
 
 

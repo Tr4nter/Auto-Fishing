@@ -3,6 +3,7 @@ package tr4nt.autofish.scheduler;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.FishingRodItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Hand;
@@ -43,10 +44,10 @@ public class Ticker implements ClientTickEvents.StartTick {
                         return;
 
                     }
-                    if (player.getStackInHand(playerHand).getItem() == Items.FISHING_ROD)
+                    if (player.getStackInHand(playerHand).getItem().asItem() == Items.FISHING_ROD)
                     {
                         client.interactionManager.interactItem(player, playerHand);
-                        if (RodEvent == RodEnum.CATCH) TickEvent.Catching = false;
+                        if (RodEvent == RodEnum.CATCH) ;
                     }
                     removeQueue.add(list);
 
