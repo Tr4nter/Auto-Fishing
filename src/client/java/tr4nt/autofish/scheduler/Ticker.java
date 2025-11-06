@@ -9,13 +9,15 @@ import net.minecraft.item.Items;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import tr4nt.autofish.AutoFish;
+import tr4nt.autofish.AutoFishClient;
 import tr4nt.autofish.RodEnum;
 import tr4nt.autofish.TickEvent;
+import tr4nt.autofish.config.ConfigFile;
 
 
 import java.util.ArrayList;
 
-import static tr4nt.autofish.Utils.tick;
+import static tr4nt.autofish.Utils.*;
 
 
 public class Ticker implements ClientTickEvents.StartTick {
@@ -44,10 +46,30 @@ public class Ticker implements ClientTickEvents.StartTick {
                         return;
 
                     }
-                    if (player.getStackInHand(playerHand).getItem().asItem() == Items.FISHING_ROD)
+                    ItemStack itemStack = player.getStackInHand(playerHand);
+                    if (itemStack.getItem().asItem() == Items.FISHING_ROD)
                     {
+                        player.swingHand(playerHand);
+                        if (RodEvent == RodEnum.RELEASE)
+                        {
+                            swapToNewRod(client, playerHand, AutoFishClient.lastSwappedSlot);
+
+                        } else {
+                            if (ConfigFile.getValue("SwapRodIfAlmostBroken").getAsBoolean()) {
+                                if (getRodDurability(itemStack) <= 1) {
+                                    AutoFishClient.lastSwappedSlot = swapToNewRod(client, playerHand, false);
+                                }
+                            }
+                        }
                         client.interactionManager.interactItem(player, playerHand);
-                        if (RodEvent == RodEnum.CATCH) ;
+                        AutoFishClient.lastAct = RodEvent;
+                        AutoFishClient.lastActTime = tick();
+                        if (RodEvent == RodEnum.CATCH && getRodDurability(itemStack) == 1 && ConfigFile.getValue("SwitchRodAfterBroken").getAsBoolean())
+                        {
+                            swapToNewRod(client, playerHand, true);
+                        }
+
+
                     }
                     removeQueue.add(list);
 

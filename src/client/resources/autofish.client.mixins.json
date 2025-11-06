@@ -3,12 +3,16 @@
   "package": "tr4nt.autofish.mixin.client",
   "compatibilityLevel": "JAVA_17",
   "client": [
-    "FishingBobberEntityMixin"
+    "FishingBobberEntityMixin",
+    "FishingBobberEntityInjector",
+    "ClientPlayerInteractionManagerMixin",
+    "PlayerInventoryAccessor"
+
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "mixins": [
-    "FishingBobberEntityMixin"
+
   ]
 }

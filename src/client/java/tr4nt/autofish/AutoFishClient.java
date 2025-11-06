@@ -8,6 +8,7 @@ import net.minecraft.world.event.listener.GameEventDispatcher;
 import net.minecraft.world.event.listener.SimpleGameEventDispatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tr4nt.autofish.commands.CommandMain;
 import tr4nt.autofish.commands.ListCommands;
 import tr4nt.autofish.commands.SetNumberCommand;
 import tr4nt.autofish.config.ConfigFile;
@@ -22,12 +23,22 @@ import static tr4nt.autofish.Utils.newOption;
 public class AutoFishClient implements ClientModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger("auto-fish");
 	public static final ArrayList commandList = new ArrayList();
+	public static int lastSwappedSlot = -1;
+	public static RodEnum lastAct;
+	public static long lastActTime;
+
 	@Override
 	public void onInitializeClient() {
 		// This entrypoint is suitable for setting up client-specific logic, such as rendering.
 		ConfigFile.register("autofishconf");
 		commandList.add(newOption("RodReleaseDelay", "100"));
 		commandList.add(newOption("RodCatchDelay", "100"));
+		commandList.add(newOption("BobberKillTimeThreshold", "3000"));
+		commandList.add(newOption("RecastIfBobberKilled", "false"));
+		commandList.add(newOption("StopCastIfAlmostBroken", "false"));
+		commandList.add(newOption("SwapRodIfAlmostBroken", "false"));
+		commandList.add(newOption("SwitchRodAfterBroken", "false"));
+		commandList.add(newOption("RecastIfBobberKilled", "false"));
 		commandList.forEach((i)->
 		{
 			Map<String, String> iz = (Map<String,String>) i;
@@ -38,6 +49,10 @@ public class AutoFishClient implements ClientModInitializer {
 			if (isNumber(value)) {
 				ClientCommandRegistrationCallback.EVENT.register(new SetNumberCommand(name)::register);
 
+			} else
+			{
+				CommandMain main = new CommandMain(name);
+				ClientCommandRegistrationCallback.EVENT.register(main::register);
 			}
 
 		});
