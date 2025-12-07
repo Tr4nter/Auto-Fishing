@@ -2,9 +2,6 @@ package tr4nt.autofish.mixin.client;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
-import net.minecraft.item.FishingRodItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.MinecartItem;
 import net.minecraft.util.Hand;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -16,7 +13,7 @@ import tr4nt.autofish.RodEnum;
 import static tr4nt.autofish.Utils.getHandWithRod;
 
 @Mixin(ClientPlayerInteractionManager.class)
-public class ClientPlayerInteractionManagerMixin {
+public class ClientPlayerInteractionManagerInjector {
     @Inject(at=@At("HEAD"), method="interactItem", cancellable = true)
     private void use(CallbackInfoReturnable<?> cir)
     {

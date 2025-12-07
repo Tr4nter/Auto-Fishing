@@ -5,7 +5,7 @@
   "client": [
     "FishingBobberEntityMixin",
     "FishingBobberEntityInjector",
-    "ClientPlayerInteractionManagerMixin",
+    "ClientPlayerInteractionManagerInjector",
     "PlayerInventoryAccessor"
 
   ],

@@ -136,29 +136,32 @@ public class Utils {
 
     public static void queueRodInteraction(MinecraftClient client, PlayerEntity player, Hand playerHand, RodEnum RodEventType) {
         if (!ConfigFile.getValue("AutoFishing").getAsBoolean()) return;
+        if (!Ticker.iterating) {
 
-        long latency = getLatency(client);
-        long delay = 0;
-        if (RodEventType == RodEnum.RELEASE)
-        {
-            delay = ConfigFile.getValue("RodReleaseDelay").getAsInt();
+            for(int i = 0; i < Ticker.TaskList.size(); ++i) {
+                ArrayList list1 = (ArrayList)Ticker.TaskList.get(i);
+                RodEnum RodEvent = (RodEnum)list1.get(4);
+                if (RodEvent == RodEventType) {
+                    return;
+                }
+            }
 
-        } else if (RodEventType == RodEnum.CATCH) {
-            delay = ConfigFile.getValue("RodCatchDelay").getAsInt();
+            long delay = 0L;
+            if (RodEventType == RodEnum.RELEASE) {
+                delay = (long)ConfigFile.getValue("RodReleaseDelay").getAsInt();
+            } else if (RodEventType == RodEnum.CATCH) {
+                delay = (long)ConfigFile.getValue("RodCatchDelay").getAsInt();
+            }
 
+            ArrayList info = new ArrayList();
+            info.add(player);
+            info.add(playerHand);
+            long taskSize = (long)(Ticker.TaskList.size() + 1);
+            info.add(delay * taskSize);
+            info.add(tick());
+            info.add(RodEventType);
+            Ticker.TaskList.add(info);
         }
-
-        ArrayList info = new ArrayList();
-        info.add(player);
-        info.add(playerHand);
-        long taskSize = Ticker.TaskList.size()+1;
-
-        info.add((delay*taskSize));
-
-
-        info.add(tick());
-        info.add(RodEventType);
-        Ticker.TaskList.add(info);
     }
 
     public static Hand getHandWithRod(MinecraftClient client)
