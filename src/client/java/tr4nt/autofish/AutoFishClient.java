@@ -31,6 +31,7 @@ public class AutoFishClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		// This entrypoint is suitable for setting up client-specific logic, such as rendering.
 		ConfigFile.register("autofishconf");
+		commandList.add(newOption("AutoFishing", "true"));
 		commandList.add(newOption("RodReleaseDelay", "100"));
 		commandList.add(newOption("RodCatchDelay", "100"));
 		commandList.add(newOption("BobberKillTimeThreshold", "3000"));

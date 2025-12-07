@@ -47,7 +47,7 @@ public class Ticker implements ClientTickEvents.StartTick {
 
                     }
                     ItemStack itemStack = player.getStackInHand(playerHand);
-                    if (itemStack.getItem().asItem() == Items.FISHING_ROD)
+                    if (itemStack.getItem().asItem() instanceof FishingRodItem)
                     {
                         player.swingHand(playerHand);
                         if (RodEvent == RodEnum.RELEASE)

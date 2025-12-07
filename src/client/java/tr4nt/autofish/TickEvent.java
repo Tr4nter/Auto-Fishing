@@ -37,9 +37,10 @@ public class TickEvent implements ClientTickEvents.StartTick{
     public void onStartTick(MinecraftClient client) {
         PlayerEntity player = client.player;
         if (player == null) return;
-        if (player.getMainHandStack().getItem().asItem() != Items.FISHING_ROD && player.getOffHandStack().getItem().asItem() != Items.FISHING_ROD) return;
+        if (getHandWithRod(client) == null) return;
         if (player.fishHook == null) return;
         FishingBobberEntity fishHook = player.fishHook;
+
         FishingBobberEntityMixin fishHookMixin = (FishingBobberEntityMixin)  fishHook;
         if (fishHookMixin.getCaughtFish())
         {

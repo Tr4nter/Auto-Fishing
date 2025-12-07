@@ -101,7 +101,7 @@ public class Utils {
         for (int i = 0; i < 36; i++) {
             ItemStack stack = player.getInventory().getStack(i);
             if (stack == currentRod) continue;
-            if (!stack.isOf(Items.FISHING_ROD)) continue;
+            if (!(stack.getItem() instanceof FishingRodItem)) continue;
             if (getRodDurability(stack) <= 1 && !ignoreDurability) continue;
 
             if (hand == Hand.MAIN_HAND)
@@ -123,7 +123,6 @@ public class Utils {
 
         if (hand == Hand.MAIN_HAND)
         {
-            AutoFishClient.LOGGER.info("SWITCH BACK TO OLD ROD");
             swapSlots(client, currentSelectedSlot, swappedSlot);
         } else
         {
@@ -136,6 +135,8 @@ public class Utils {
     }
 
     public static void queueRodInteraction(MinecraftClient client, PlayerEntity player, Hand playerHand, RodEnum RodEventType) {
+        if (!ConfigFile.getValue("AutoFishing").getAsBoolean()) return;
+
         long latency = getLatency(client);
         long delay = 0;
         if (RodEventType == RodEnum.RELEASE)
@@ -162,9 +163,10 @@ public class Utils {
 
     public static Hand getHandWithRod(MinecraftClient client)
     {
-        if (client.player.getMainHandStack().getItem().asItem() == Items.FISHING_ROD) {
+
+        if (client.player.getMainHandStack().getItem() instanceof FishingRodItem) {
             return Hand.MAIN_HAND;
-        } else if (client.player.getOffHandStack().getItem().asItem() == Items.FISHING_ROD)
+        } else if (client.player.getOffHandStack().getItem() instanceof FishingRodItem)
         {
             return Hand.OFF_HAND;
         } else {
